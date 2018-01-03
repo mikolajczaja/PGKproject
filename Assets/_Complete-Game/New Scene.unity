@@ -13823,6 +13823,14 @@ Prefab:
       propertyPath: spreadCustomCurve.m_RotationOrder
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 11400002, guid: 4e5a0d387dc27394b81600988ad0216f, type: 2}
+      propertyPath: movementSpeed
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400002, guid: 4e5a0d387dc27394b81600988ad0216f, type: 2}
+      propertyPath: mouseSensivity
+      value: 6
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 4e5a0d387dc27394b81600988ad0216f, type: 2}
   m_IsPrefabParent: 0

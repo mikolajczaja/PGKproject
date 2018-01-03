@@ -1,11 +1,13 @@
 ﻿using UnityEngine;
 using UnitySampleAssets.CrossPlatformInput;
+using System.Collections;
 
 namespace CompleteProject
 {
     public class PlayerMovement : MonoBehaviour
     {
-        public float speed = 6f;            // The speed that the player will move at.
+        public float movementSpeed = 2f;            // The speed that the player will move at.
+        public float mouseSensivity = 2f;            // The speed that the player will move at.
 
 
         Vector3 movement;                   // The vector to store the direction of the player's movement.
@@ -25,8 +27,48 @@ namespace CompleteProject
         float moveV;
         float moveH;
 
+        private IEnumerator rotate()
+        {
+
+            rotX = Input.GetAxis("Mouse X") * mouseSensivity;
+
+            transform.Rotate(0, rotX, 0);
+
+            Quaternion rot = transform.rotation;
+            rot = Quaternion.Euler(1.5f, rot.eulerAngles.y, rot.eulerAngles.z);
+
+            Camera.main.transform.rotation = rot;
+
+            yield return null;
+        }
+
+
+        private IEnumerator move()
+        {
+            Vector3 pos = transform.position;// +offset;
+            pos.y = 1;
+            Camera.main.transform.position = pos;
+
+            moveV = Input.GetAxis("Vertical") * movementSpeed;
+            moveH = Input.GetAxis("Horizontal") * movementSpeed;
+
+            Vector3 movement = new Vector3(moveH, 0, moveV);
+
+
+            movement = transform.rotation * movement;
+            playerRigidbody.MovePosition(transform.position + movement);
+            transform.position = playerRigidbody.position;
+
+            yield return null;
+        }
+
+
+
         private void rotatePlayer()
         {
+            rotX = Input.GetAxis("Mouse X") * mouseSensivity;
+
+            transform.Rotate(0, rotX, 0);
 
             Quaternion rot = transform.rotation;
             rot = Quaternion.Euler(1.5f, rot.eulerAngles.y, rot.eulerAngles.z);
@@ -34,32 +76,21 @@ namespace CompleteProject
             Camera.main.transform.rotation = rot;
         }
 
+
         private void movePlayer()
         {
-
-
             Vector3 pos = transform.position;// +offset;
-
             pos.y = 1;
             Camera.main.transform.position = pos;
 
-            rotX = Input.GetAxis("Mouse X") * 5f;
-
-            transform.Rotate(0, rotX, 0);
-
-
-            moveV = Input.GetAxis("Vertical") * 0.2f;
-            moveH = Input.GetAxis("Horizontal") * 0.2f;
-
+            moveV = Input.GetAxis("Vertical") * movementSpeed;
+            moveH = Input.GetAxis("Horizontal") * movementSpeed;
 
             Vector3 movement = new Vector3(moveH, 0, moveV);
 
 
-
             movement = transform.rotation * movement;
-
             playerRigidbody.MovePosition(transform.position + movement);
-
             transform.position = playerRigidbody.position;
         }
 
@@ -82,13 +113,15 @@ namespace CompleteProject
         {
             if (TriggerManager.isInRange())
             {
-                transform.position = Vector3.Lerp(transform.position, new Vector3(transform.position.x+300, 300, transform.position.z+300), 0.001f);
+                transform.position = Vector3.Lerp(transform.position, new Vector3(transform.position.x + 300, 300, transform.position.z + 300), 0.01f);
                 gameEnded = true;
             }
             if (!gameEnded)
             {
-                rotatePlayer();
-                movePlayer();
+                StartCoroutine("move");
+                StartCoroutine("rotate");
+                //rotatePlayer();
+                //movePlayer();
             }
 
             // Store the input axes.
@@ -112,7 +145,7 @@ namespace CompleteProject
             movement.Set(h, 0f, v);
 
             // Normalise the movement vector and make it proportional to the speed per second.
-            movement = movement.normalized * speed * Time.deltaTime;
+            movement = movement.normalized * movementSpeed * Time.deltaTime;
 
             // Move the player to it's current position plus the movement.
             playerRigidbody.MovePosition(transform.position + movement);
