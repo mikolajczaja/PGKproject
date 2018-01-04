@@ -9,6 +9,8 @@ namespace CompleteProject
         public float timeBetweenBullets = 0.15f;        // The time between each shot.
         public float range = 100f;                      // The distance the gun can fire.
 
+        public int startingAmmo = 20;
+        public int currentAmmo;
 
         float timer;                                    // A timer to determine when to fire.
         Ray shootRay = new Ray();                       // A ray from the gun end forwards.
@@ -32,7 +34,8 @@ namespace CompleteProject
             gunLine = GetComponent <LineRenderer> ();
             gunAudio = GetComponent<AudioSource> ();
             gunLight = GetComponent<Light> ();
-			//faceLight = GetComponentInChildren<Light> ();
+            //faceLight = GetComponentInChildren<Light> ();
+            currentAmmo = startingAmmo;
         }
 
 
@@ -43,10 +46,11 @@ namespace CompleteProject
 
 #if !MOBILE_INPUT
             // If the Fire1 button is being press and it's time to fire...
-			if(Input.GetButton ("Fire1") && timer >= timeBetweenBullets && Time.timeScale != 0)
+			if((Input.GetButton ("Fire1")) && (timer >= timeBetweenBullets) && (Time.timeScale != 0)&&(currentAmmo>0))
             {
                 // ... shoot the gun.
                 Shoot ();
+                currentAmmo--;
             }
 #else
             // If there is input on the shoot direction stick and it's time to fire...

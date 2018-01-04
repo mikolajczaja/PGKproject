@@ -58,7 +58,7 @@ public class PlayerShooting : MonoBehaviour
         gunAudio.Play ();
 
         gunLight.enabled = true;
-
+        
         gunParticles.Stop ();
         gunParticles.Play ();
 
