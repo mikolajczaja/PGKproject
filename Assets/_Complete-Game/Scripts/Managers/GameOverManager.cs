@@ -1,32 +1,54 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 namespace CompleteProject
 {
     public class GameOverManager : MonoBehaviour
     {
-        public PlayerHealth playerHealth;       // Reference to the player's health.
-        public Transform player;
-        public GameObject mapExit;
+        public PlayerHealth playerHealth;
+        public Button restartButton;
+        public Button exitButton;
 
-        Animator anim;                          // Reference to the animator component.
+        Animator animator;
 
+        private void initializeButtons()
+        {
+            restartButton.enabled = true;
+            print(restartButton.enabled);
+            exitButton.enabled = true;
+            print("initialized");
+        }
 
-        void Awake ()
+        void Awake()
         {
             // Set up the reference.
-            anim = GetComponent <Animator> ();
+            animator = GetComponent<Animator>();
         }
 
 
-        void Update ()
+        void Update()
         {
             // If the player has run out of health...
-            if((playerHealth.currentHealth <= 0)||(TriggerManager.isInRange()))
+            if (playerHealth.currentHealth <= 0)
             {
                 // ... tell the animator the game is over.
-                anim.SetTrigger ("GameOver");
-            }
+                animator.SetTrigger("GameOver");
 
+               // initializeButtons();
+                SceneManager.LoadScene("Game Over");
+
+                return;
+            }
+            if (TriggerManager.isInRange())
+            {
+                animator.SetTrigger("GameOver");
+
+                // initializeButtons();
+                SceneManager.LoadScene("Game Won");
+
+                return;
+            }
         }
     }
 }

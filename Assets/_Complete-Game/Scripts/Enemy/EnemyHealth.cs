@@ -28,7 +28,7 @@ namespace CompleteProject
             capsuleCollider = GetComponent <CapsuleCollider> ();
 
             // Setting the current health when the enemy first spawns.
-            currentHealth = startingHealth;
+            currentHealth = (int) (startingHealth*DifficultyManager.EnemyHealthMultiplier);
 
         }
 
@@ -68,6 +68,7 @@ namespace CompleteProject
             {
                 // ... the enemy is dead.
                 Death ();
+                GroupEnemyManager.enemyCount--;
             }
         }
 
@@ -86,6 +87,7 @@ namespace CompleteProject
             // Change the audio clip of the audio source to the death clip and play it (this will stop the hurt clip playing).
             enemyAudio.clip = deathClip;
             enemyAudio.Play ();
+            GroupEnemyManager.enemyCount--;
         }
 
 

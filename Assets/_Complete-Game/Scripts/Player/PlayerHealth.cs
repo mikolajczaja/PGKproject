@@ -26,14 +26,12 @@ namespace CompleteProject
 
         void Awake ()
         {
-            // Setting up the references.
             anim = GetComponent <Animator> ();
             playerAudio = GetComponent <AudioSource> ();
             playerMovement = GetComponent <PlayerMovement> ();
             playerShooting = GetComponentInChildren <PlayerShooting> ();
 
-            // Set the initial health of the player.
-            currentHealth = startingHealth;
+            currentHealth = DifficultyManager.BasePlayerHealth;
         }
 
 
