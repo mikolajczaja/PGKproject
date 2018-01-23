@@ -5,15 +5,12 @@ using UnityEngine;
 public class TriggerManager : MonoBehaviour {
 
     private static bool inRange=false;
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+
+    private void Awake()
+    {
+        inRange = false;
+    }
+
 
     public static bool isInRange()
     {

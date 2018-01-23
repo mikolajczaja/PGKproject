@@ -10,6 +10,7 @@ public class FinalScoreManager : MonoBehaviour {
     public Text text;
 	// Use this for initialization
 	void Start () {
+        GameEndingManager.finalScore = GameEndingManager.finalScore + 100;
         text.text = text.text + GameEndingManager.finalScore;
 	}
 	
